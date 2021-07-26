@@ -1,0 +1,1992 @@
+<mujoco model="manta">
+    <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+    <option collision="predefined" density="1000" integrator="RK4" timestep="0.01" viscosity="0.1"/>
+    <default>
+        <geom conaffinity="1" condim="1" contype="1" material="geom" rgba="0.8 0.6 .4 1"/>
+        <joint armature='0.1'/>
+        <default class="DEA_active">
+            <geom type='box' size='.007 .0025 .0002' rgba='1 1 1 1'/>
+        </default>
+        <default class="DEA_passive">
+            <geom type='box' size='.002 .0025 .0002' rgba='1 .5 1 .5'/>
+        </default>
+        <default class="left_joint_active">
+            <joint axis="1 0 0" limited="true" pos="0 -0.0025 0" range="-1 1" type="hinge"/>
+        </default>
+        <default class="right_joint_active">
+            <joint axis="1 0 0" limited="true" pos="0 0.0025 0" range="-1 1" type="hinge"/>
+        </default>
+        <default class="joint_passive_end">
+            <joint axis="0 1 0" limited="true" pos=".002 0 0" range="-60 60" type="hinge"/>
+        </default>
+        <default class="joint_passive_head">
+            <joint axis="0 1 0" limited="true" pos="-.002 0 0" range="-60 60" type="hinge"/>
+        </default>
+        <default class="fromsite_a">
+            <site pos="-0.0015 0.002 0" size="0.0003"/>
+        </default>
+        <default class="fromsite_b">
+            <site pos="-0.0015 -0.002 0" size="0.0003"/>
+        </default>
+        <default class="tosite_a">
+            <site pos="0.0015 0.002 0" size="0.0003"/>
+        </default>
+        <default class="tosite_b">
+            <site pos="0.0015 -0.002 0" size="0.0003"/>
+        </default>
+        <default class="headsite_a">
+            <site pos="0.007 0.002 0" size="0.0003"/>
+        </default>
+        <default class="headsite_b">
+            <site pos="0.007 -0.002 0" size="0.0003"/>
+        </default>
+        <default class="actuator">
+            <motor ctrllimited="true" ctrlrange="-1 1" gear="150.0"/>
+        </default>
+    </default>
+    <asset>
+        <texture builtin="gradient" height="100" rgb1="1 1 1" rgb2="0 0 0" type="skybox" width="100"/>
+        <texture builtin="flat" height="1278" mark="cross" markrgb="1 1 1" name="texgeom" random="0.01"
+                 rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" type="cube" width="127"/>
+        <texture builtin="checker" height="100" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="100"/>
+        <material name="MatPlane" reflectance="0.5" shininess="1" specular="1" texrepeat="10 10" texture="texplane"/>
+        <material name="geom" texture="texgeom" texuniform="true"/>
+    </asset>
+    <worldbody>
+        <light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3"
+               specular=".1 .1 .1"/>
+        <geom conaffinity="1" condim="3" material="MatPlane" name="floor" pos="0 0 -0.1" rgba="0.8 0.9 0.8 1"
+              size="1 1 0.1" type="plane"/>
+        <!--  ======================================================================== torso ============================================================================= /-->
+        <body name="torso" pos="0 0 .03">
+            <camera name="track" mode="trackcom" pos="0 -3 3" xyaxes="1 0 0 0 1 1"/>
+            <geom type='box' size='.05 .04 .02' rgba='.5 .5 1 1'/>
+            <joint axis="1 0 0" name="slider1" pos="0 0 0" type="slide"/>
+            <joint axis="0 1 0" name="slider2" pos="0 0 0" type="slide"/>
+            <joint axis="0 0 1" name="rot" pos="0 0 0" type="hinge"/>
+            <!--  ======================================================================== torso ============================================================================= /-->
+            <!--  ======================================================================== left-1 ============================================================================= /-->
+            <body name="left_active_1_1" pos=".024 .0425 0">
+                <geom class="DEA_active"/>
+                <joint name="left_active_1_1" class="left_joint_active"/>
+                <body name="left_passive_1_1_1" pos="-.009 0 0">
+                    <geom class="DEA_passive"/>
+                    <joint class="joint_passive_end"/>
+                    <site name="left_end_1_1_a_from" class="fromsite_a"/>
+                    <site name="left_end_1_1_b_from" class="fromsite_b"/>
+                    <body name="left_passive_1_1_2" pos="-.003 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                        <site name="left_end_1_1_a_to" class="tosite_a"/>
+                        <site name="left_end_1_1_b_to" class="tosite_b"/>
+                        <site name="left_end_1_1_c_from" class="fromsite_a"/>
+                        <site name="left_end_1_1_d_from" class="fromsite_b"/>
+                        <body name="left_passive_1_1_3" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="left_end_1_1_c_to" class="tosite_a"/>
+                            <site name="left_end_1_1_d_to" class="tosite_b"/>
+                        </body>
+                    </body>
+                </body>
+                <body name="left_active_1_2" pos="0 .005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="left_active_1_2" class="left_joint_active"/>
+                    <body name="left_passive_1_2_1" pos="-.009 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint class="joint_passive_end"/>
+                        <site name="left_end_1_2_a_from" class="fromsite_a"/>
+                        <site name="left_end_1_2_b_from" class="fromsite_b"/>
+                        <body name="left_passive_1_2_2" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="left_end_1_2_a_to" class="tosite_a"/>
+                            <site name="left_end_1_2_b_to" class="tosite_b"/>
+                            <site name="left_end_1_2_c_from" class="fromsite_a"/>
+                            <site name="left_end_1_2_d_from" class="fromsite_b"/>
+                            <body name="left_passive_1_2_3" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="left_end_1_2_c_to" class="tosite_a"/>
+                                <site name="left_end_1_2_d_to" class="tosite_b"/>
+                            </body>
+                        </body>
+                    </body>
+                    <body name="left_active_1_3" pos="0 .005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="left_active_1_3" class="left_joint_active"/>
+                        <body name="left_passive_1_3_1" pos="-.009 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint class="joint_passive_end"/>
+                            <site name="left_end_1_3_a_from" class="fromsite_a"/>
+                            <site name="left_end_1_3_b_from" class="fromsite_b"/>
+                            <body name="left_passive_1_3_2" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="left_end_1_3_a_to" class="tosite_a"/>
+                                <site name="left_end_1_3_b_to" class="tosite_b"/>
+                                <site name="left_end_1_3_c_from" class="fromsite_a"/>
+                                <site name="left_end_1_3_d_from" class="fromsite_b"/>
+                                <body name="left_passive_1_3_3" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="left_end_1_3_c_to" class="tosite_a"/>
+                                    <site name="left_end_1_3_d_to" class="tosite_b"/>
+                                </body>
+                            </body>
+                        </body>
+                        <body name="left_active_1_4" pos="0 .005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="left_active_1_4" class="left_joint_active"/>
+                            <body name="left_passive_1_4_1" pos="-.009 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint class="joint_passive_end"/>
+                                <site name="left_end_1_4_a_from" class="fromsite_a"/>
+                                <site name="left_end_1_4_b_from" class="fromsite_b"/>
+                                <body name="left_passive_1_4_2" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="left_end_1_4_a_to" class="tosite_a"/>
+                                    <site name="left_end_1_4_b_to" class="tosite_b"/>
+                                    <site name="left_end_1_4_c_from" class="fromsite_a"/>
+                                    <site name="left_end_1_4_d_from" class="fromsite_b"/>
+                                    <body name="left_passive_1_4_3" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="left_end_1_4_c_to" class="tosite_a"/>
+                                        <site name="left_end_1_4_d_to" class="tosite_b"/>
+                                    </body>
+                                </body>
+                            </body>
+                            <body name="left_active_1_5" pos="0 .005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="left_active_1_5" class="left_joint_active"/>
+                                <body name="left_passive_1_5_1" pos="-.009 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint class="joint_passive_end"/>
+                                    <site name="left_end_1_5_a_from" class="fromsite_a"/>
+                                    <site name="left_end_1_5_b_from" class="fromsite_b"/>
+                                    <body name="left_passive_1_5_2" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="left_end_1_5_a_to" class="tosite_a"/>
+                                        <site name="left_end_1_5_b_to" class="tosite_b"/>
+                                        <site name="left_end_1_5_c_from" class="fromsite_a"/>
+                                        <site name="left_end_1_5_d_from" class="fromsite_b"/>
+                                        <body name="left_passive_1_5_3" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="left_end_1_5_c_to" class="tosite_a"/>
+                                            <site name="left_end_1_5_d_to" class="tosite_b"/>
+                                        </body>
+                                    </body>
+                                </body>
+                                <body name="left_active_1_6" pos="0 .005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="left_active_1_6" class="left_joint_active"/>
+                                    <body name="left_passive_1_6_1" pos="-.009 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint class="joint_passive_end"/>
+                                        <site name="left_end_1_6_a_from" class="fromsite_a"/>
+                                        <site name="left_end_1_6_b_from" class="fromsite_b"/>
+                                        <body name="left_passive_1_6_2" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="left_end_1_6_a_to" class="tosite_a"/>
+                                            <site name="left_end_1_6_b_to" class="tosite_b"/>
+                                            <site name="left_end_1_6_c_from" class="fromsite_a"/>
+                                            <site name="left_end_1_6_d_from" class="fromsite_b"/>
+                                            <body name="left_passive_1_6_3" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="left_end_1_6_c_to" class="tosite_a"/>
+                                                <site name="left_end_1_6_d_to" class="tosite_b"/>
+                                            </body>
+                                        </body>
+                                    </body>
+                                    <body name="left_active_1_7" pos="0 .005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="left_active_1_7" class="left_joint_active"/>
+                                        <body name="left_passive_1_7_1" pos="-.009 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint class="joint_passive_end"/>
+                                            <site name="left_end_1_7_a_from" class="fromsite_a"/>
+                                            <site name="left_end_1_7_b_from" class="fromsite_b"/>
+                                            <body name="left_passive_1_7_2" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="left_end_1_7_a_to" class="tosite_a"/>
+                                                <site name="left_end_1_7_b_to" class="tosite_b"/>
+                                                <site name="left_end_1_7_c_from" class="fromsite_a"/>
+                                                <site name="left_end_1_7_d_from" class="fromsite_b"/>
+                                                <body name="left_passive_1_7_3" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="left_end_1_7_c_to" class="tosite_a"/>
+                                                    <site name="left_end_1_7_d_to" class="tosite_b"/>
+                                                </body>
+                                            </body>
+                                        </body>
+                                        <body name="left_active_1_8" pos="0 .005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="left_active_1_8" class="left_joint_active"/>
+                                            <body name="left_passive_1_8_1" pos="-.009 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint class="joint_passive_end"/>
+                                                <site name="left_end_1_8_a_from" class="fromsite_a"/>
+                                                <site name="left_end_1_8_b_from" class="fromsite_b"/>
+                                                <body name="left_passive_1_8_2" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="left_end_1_8_a_to" class="tosite_a"/>
+                                                    <site name="left_end_1_8_b_to" class="tosite_b"/>
+                                                    <site name="left_end_1_8_c_from" class="fromsite_a"/>
+                                                    <site name="left_end_1_8_d_from" class="fromsite_b"/>
+                                                    <body name="left_passive_1_8_3" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="left_end_1_8_c_to" class="tosite_a"/>
+                                                        <site name="left_end_1_8_d_to" class="tosite_b"/>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                            <body name="left_active_1_9" pos="0 .005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="left_active_1_9" class="left_joint_active"/>
+                                                <body name="left_passive_1_9_1" pos="-.009 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint class="joint_passive_end"/>
+                                                    <site name="left_end_1_9_a_from" class="fromsite_a"/>
+                                                    <site name="left_end_1_9_b_from" class="fromsite_b"/>
+                                                    <body name="left_passive_1_9_2" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="left_end_1_9_a_to" class="tosite_a"/>
+                                                        <site name="left_end_1_9_b_to" class="tosite_b"/>
+                                                        <site name="left_end_1_9_c_from" class="fromsite_a"/>
+                                                        <site name="left_end_1_9_d_from" class="fromsite_b"/>
+                                                        <body name="left_passive_1_9_3" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="left_end_1_9_c_to" class="tosite_a"/>
+                                                            <site name="left_end_1_9_d_to" class="tosite_b"/>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="left_active_1_10" pos="0 .005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="left_active_1_10" class="left_joint_active"/>
+                                                    <body name="left_passive_1_10_1" pos="-.009 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint class="joint_passive_end"/>
+                                                        <site name="left_end_1_10_a_from" class="fromsite_a"/>
+                                                        <site name="left_end_1_10_b_from" class="fromsite_b"/>
+                                                        <body name="left_passive_1_10_2" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="left_end_1_10_a_to" class="tosite_a"/>
+                                                            <site name="left_end_1_10_b_to" class="tosite_b"/>
+                                                            <site name="left_end_1_10_c_from" class="fromsite_a"/>
+                                                            <site name="left_end_1_10_d_from" class="fromsite_b"/>
+                                                            <body name="left_passive_1_10_3" pos="-.003 0 0">
+                                                                <geom class="DEA_passive"/>
+                                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                                <site name="left_end_1_10_c_to" class="tosite_a"/>
+                                                                <site name="left_end_1_10_d_to" class="tosite_b"/>
+                                                                <!--                                                                <site name="left_end_1_10_e_from" class="fromsite_a"/>-->
+                                                                <!--                                                                <site name="left_end_1_10_f_from" class="fromsite_b"/>-->
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <!--  ======================================================================== left-1 ============================================================================= /-->
+            <!--  ======================================================================== left-2 ============================================================================= /-->
+            <body name="left_active_2_1" pos="0 .0425 0">
+                <geom class="DEA_active"/>
+                <joint name="left_active_2_1" class="left_joint_active"/>
+                <body name="left_passive_2_1_1" pos="-.009 0 0">
+                    <geom class="DEA_passive"/>
+                    <joint class="joint_passive_end"/>
+                    <site name="left_end_2_1_a_from" class="fromsite_a"/>
+                    <site name="left_end_2_1_b_from" class="fromsite_b"/>
+                    <body name="left_passive_2_1_2" pos="-.003 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                        <site name="left_end_2_1_a_to" class="tosite_a"/>
+                        <site name="left_end_2_1_b_to" class="tosite_b"/>
+                        <site name="left_end_2_1_c_from" class="fromsite_a"/>
+                        <site name="left_end_2_1_d_from" class="fromsite_b"/>
+                        <body name="left_passive_2_1_3" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="left_end_2_1_c_to" class="tosite_a"/>
+                            <site name="left_end_2_1_d_to" class="tosite_b"/>
+                        </body>
+                    </body>
+                </body>
+                <body name="left_active_2_2" pos="0 .005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="left_active_2_2" class="left_joint_active"/>
+                    <body name="left_passive_2_2_1" pos="-.009 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint class="joint_passive_end"/>
+                        <site name="left_end_2_2_a_from" class="fromsite_a"/>
+                        <site name="left_end_2_2_b_from" class="fromsite_b"/>
+                        <body name="left_passive_2_2_2" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="left_end_2_2_a_to" class="tosite_a"/>
+                            <site name="left_end_2_2_b_to" class="tosite_b"/>
+                            <site name="left_end_2_2_c_from" class="fromsite_a"/>
+                            <site name="left_end_2_2_d_from" class="fromsite_b"/>
+                            <body name="left_passive_2_2_3" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="left_end_2_2_c_to" class="tosite_a"/>
+                                <site name="left_end_2_2_d_to" class="tosite_b"/>
+                            </body>
+                        </body>
+                    </body>
+                    <body name="left_active_2_3" pos="0 .005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="left_active_2_3" class="left_joint_active"/>
+                        <body name="left_passive_2_3_1" pos="-.009 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint class="joint_passive_end"/>
+                            <site name="left_end_2_3_a_from" class="fromsite_a"/>
+                            <site name="left_end_2_3_b_from" class="fromsite_b"/>
+                            <body name="left_passive_2_3_2" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="left_end_2_3_a_to" class="tosite_a"/>
+                                <site name="left_end_2_3_b_to" class="tosite_b"/>
+                                <site name="left_end_2_3_c_from" class="fromsite_a"/>
+                                <site name="left_end_2_3_d_from" class="fromsite_b"/>
+                                <body name="left_passive_2_3_3" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="left_end_2_3_c_to" class="tosite_a"/>
+                                    <site name="left_end_2_3_d_to" class="tosite_b"/>
+                                </body>
+                            </body>
+                        </body>
+                        <body name="left_active_2_4" pos="0 .005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="left_active_2_4" class="left_joint_active"/>
+                            <body name="left_passive_2_4_1" pos="-.009 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint class="joint_passive_end"/>
+                                <site name="left_end_2_4_a_from" class="fromsite_a"/>
+                                <site name="left_end_2_4_b_from" class="fromsite_b"/>
+                                <body name="left_passive_2_4_2" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="left_end_2_4_a_to" class="tosite_a"/>
+                                    <site name="left_end_2_4_b_to" class="tosite_b"/>
+                                    <site name="left_end_2_4_c_from" class="fromsite_a"/>
+                                    <site name="left_end_2_4_d_from" class="fromsite_b"/>
+                                    <body name="left_passive_2_4_3" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="left_end_2_4_c_to" class="tosite_a"/>
+                                        <site name="left_end_2_4_d_to" class="tosite_b"/>
+                                    </body>
+                                </body>
+                            </body>
+                            <body name="left_active_2_5" pos="0 .005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="left_active_2_5" class="left_joint_active"/>
+                                <body name="left_passive_2_5_1" pos="-.009 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint class="joint_passive_end"/>
+                                    <site name="left_end_2_5_a_from" class="fromsite_a"/>
+                                    <site name="left_end_2_5_b_from" class="fromsite_b"/>
+                                    <body name="left_passive_2_5_2" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="left_end_2_5_a_to" class="tosite_a"/>
+                                        <site name="left_end_2_5_b_to" class="tosite_b"/>
+                                        <site name="left_end_2_5_c_from" class="fromsite_a"/>
+                                        <site name="left_end_2_5_d_from" class="fromsite_b"/>
+                                        <body name="left_passive_2_5_3" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="left_end_2_5_c_to" class="tosite_a"/>
+                                            <site name="left_end_2_5_d_to" class="tosite_b"/>
+                                        </body>
+                                    </body>
+                                </body>
+                                <body name="left_active_2_6" pos="0 .005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="left_active_2_6" class="left_joint_active"/>
+                                    <body name="left_passive_2_6_1" pos="-.009 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint class="joint_passive_end"/>
+                                        <site name="left_end_2_6_a_from" class="fromsite_a"/>
+                                        <site name="left_end_2_6_b_from" class="fromsite_b"/>
+                                        <body name="left_passive_2_6_2" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="left_end_2_6_a_to" class="tosite_a"/>
+                                            <site name="left_end_2_6_b_to" class="tosite_b"/>
+                                            <site name="left_end_2_6_c_from" class="fromsite_a"/>
+                                            <site name="left_end_2_6_d_from" class="fromsite_b"/>
+                                            <body name="left_passive_2_6_3" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="left_end_2_6_c_to" class="tosite_a"/>
+                                                <site name="left_end_2_6_d_to" class="tosite_b"/>
+                                            </body>
+                                        </body>
+                                    </body>
+                                    <body name="left_active_2_7" pos="0 .005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="left_active_2_7" class="left_joint_active"/>
+                                        <body name="left_passive_2_7_1" pos="-.009 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint class="joint_passive_end"/>
+                                            <site name="left_end_2_7_a_from" class="fromsite_a"/>
+                                            <site name="left_end_2_7_b_from" class="fromsite_b"/>
+                                            <body name="left_passive_2_7_2" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="left_end_2_7_a_to" class="tosite_a"/>
+                                                <site name="left_end_2_7_b_to" class="tosite_b"/>
+                                                <site name="left_end_2_7_c_from" class="fromsite_a"/>
+                                                <site name="left_end_2_7_d_from" class="fromsite_b"/>
+                                                <body name="left_passive_2_7_3" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="left_end_2_7_c_to" class="tosite_a"/>
+                                                    <site name="left_end_2_7_d_to" class="tosite_b"/>
+                                                </body>
+                                            </body>
+                                        </body>
+                                        <body name="left_active_2_8" pos="0 .005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="left_active_2_8" class="left_joint_active"/>
+                                            <body name="left_passive_2_8_1" pos="-.009 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint class="joint_passive_end"/>
+                                                <site name="left_end_2_8_a_from" class="fromsite_a"/>
+                                                <site name="left_end_2_8_b_from" class="fromsite_b"/>
+                                                <body name="left_passive_2_8_2" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="left_end_2_8_a_to" class="tosite_a"/>
+                                                    <site name="left_end_2_8_b_to" class="tosite_b"/>
+                                                    <site name="left_end_2_8_c_from" class="fromsite_a"/>
+                                                    <site name="left_end_2_8_d_from" class="fromsite_b"/>
+                                                    <body name="left_passive_2_8_3" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="left_end_2_8_c_to" class="tosite_a"/>
+                                                        <site name="left_end_2_8_d_to" class="tosite_b"/>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                            <body name="left_active_2_9" pos="0 .005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="left_active_2_9" class="left_joint_active"/>
+                                                <body name="left_passive_2_9_1" pos="-.009 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint class="joint_passive_end"/>
+                                                    <site name="left_end_2_9_a_from" class="fromsite_a"/>
+                                                    <site name="left_end_2_9_b_from" class="fromsite_b"/>
+                                                    <body name="left_passive_2_9_2" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="left_end_2_9_a_to" class="tosite_a"/>
+                                                        <site name="left_end_2_9_b_to" class="tosite_b"/>
+                                                        <site name="left_end_2_9_c_from" class="fromsite_a"/>
+                                                        <site name="left_end_2_9_d_from" class="fromsite_b"/>
+                                                        <body name="left_passive_2_9_3" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="left_end_2_9_c_to" class="tosite_a"/>
+                                                            <site name="left_end_2_9_d_to" class="tosite_b"/>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="left_active_2_10" pos="0 .005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="left_active_2_10" class="left_joint_active"/>
+                                                    <body name="left_passive_2_10_1" pos="-.009 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint class="joint_passive_end"/>
+                                                        <site name="left_end_2_10_a_from" class="fromsite_a"/>
+                                                        <site name="left_end_2_10_b_from" class="fromsite_b"/>
+                                                        <body name="left_passive_2_10_2" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="left_end_2_10_a_to" class="tosite_a"/>
+                                                            <site name="left_end_2_10_b_to" class="tosite_b"/>
+                                                            <site name="left_end_2_10_c_from" class="fromsite_a"/>
+                                                            <site name="left_end_2_10_d_from" class="fromsite_b"/>
+                                                            <body name="left_passive_2_10_3" pos="-.003 0 0">
+                                                                <geom class="DEA_passive"/>
+                                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                                <site name="left_end_2_10_c_to" class="tosite_a"/>
+                                                                <site name="left_end_2_10_d_to" class="tosite_b"/>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <!--  ======================================================================== left-2 ============================================================================= /-->
+            <!--  ======================================================================== left-3 ============================================================================= /-->
+            <body name="left_active_3_1" pos="-.024 .0425 0">
+                <geom class="DEA_active"/>
+                <joint name="left_active_3_1" class="left_joint_active"/>
+
+                <body name="left_active_3_2" pos="0 .005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="left_active_3_2" class="left_joint_active"/>
+
+                    <body name="left_active_3_3" pos="0 .005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="left_active_3_3" class="left_joint_active"/>
+
+                        <body name="left_active_3_4" pos="0 .005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="left_active_3_4" class="left_joint_active"/>
+
+                            <body name="left_active_3_5" pos="0 .005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="left_active_3_5" class="left_joint_active"/>
+
+                                <body name="left_active_3_6" pos="0 .005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="left_active_3_6" class="left_joint_active"/>
+
+                                    <body name="left_active_3_7" pos="0 .005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="left_active_3_7" class="left_joint_active"/>
+
+                                        <body name="left_active_3_8" pos="0 .005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="left_active_3_8" class="left_joint_active"/>
+
+                                            <body name="left_active_3_9" pos="0 .005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="left_active_3_9" class="left_joint_active"/>
+
+                                                <body name="left_active_3_10" pos="0 .005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="left_active_3_10" class="left_joint_active"/>
+
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+
+            <!--  ======================================================================== left-3 ============================================================================= /-->
+            <!--  ======================================================================== right-1 ============================================================================= /-->
+            <body name="right_active_1_1" pos=".024 -.0425 0">
+                <geom class="DEA_active"/>
+                <joint name="right_active_1_1" class="right_joint_active"/>
+                <body name="right_passive_1_1_1" pos="-.009 0 0">
+                    <geom class="DEA_passive"/>
+                    <joint class="joint_passive_end"/>
+                    <site name="right_end_1_1_a_from" class="fromsite_a"/>
+                    <site name="right_end_1_1_b_from" class="fromsite_b"/>
+                    <body name="right_passive_1_1_2" pos="-.003 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                        <site name="right_end_1_1_a_to" class="tosite_a"/>
+                        <site name="right_end_1_1_b_to" class="tosite_b"/>
+                        <site name="right_end_1_1_c_from" class="fromsite_a"/>
+                        <site name="right_end_1_1_d_from" class="fromsite_b"/>
+                        <body name="right_passive_1_1_3" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="right_end_1_1_c_to" class="tosite_a"/>
+                            <site name="right_end_1_1_d_to" class="tosite_b"/>
+                        </body>
+                    </body>
+                </body>
+                <body name="right_active_1_2" pos="0 -.005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="right_active_1_2" class="right_joint_active"/>
+                    <body name="right_passive_1_2_1" pos="-.009 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint class="joint_passive_end"/>
+                        <site name="right_end_1_2_a_from" class="fromsite_a"/>
+                        <site name="right_end_1_2_b_from" class="fromsite_b"/>
+                        <body name="right_passive_1_2_2" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="right_end_1_2_a_to" class="tosite_a"/>
+                            <site name="right_end_1_2_b_to" class="tosite_b"/>
+                            <site name="right_end_1_2_c_from" class="fromsite_a"/>
+                            <site name="right_end_1_2_d_from" class="fromsite_b"/>
+                            <body name="right_passive_1_2_3" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="right_end_1_2_c_to" class="tosite_a"/>
+                                <site name="right_end_1_2_d_to" class="tosite_b"/>
+                            </body>
+                        </body>
+                    </body>
+                    <body name="right_active_1_3" pos="0 -.005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="right_active_1_3" class="right_joint_active"/>
+                        <body name="right_passive_1_3_1" pos="-.009 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint class="joint_passive_end"/>
+                            <site name="right_end_1_3_a_from" class="fromsite_a"/>
+                            <site name="right_end_1_3_b_from" class="fromsite_b"/>
+                            <body name="right_passive_1_3_2" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="right_end_1_3_a_to" class="tosite_a"/>
+                                <site name="right_end_1_3_b_to" class="tosite_b"/>
+                                <site name="right_end_1_3_c_from" class="fromsite_a"/>
+                                <site name="right_end_1_3_d_from" class="fromsite_b"/>
+                                <body name="right_passive_1_3_3" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="right_end_1_3_c_to" class="tosite_a"/>
+                                    <site name="right_end_1_3_d_to" class="tosite_b"/>
+                                </body>
+                            </body>
+                        </body>
+                        <body name="right_active_1_4" pos="0 -.005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="right_active_1_4" class="right_joint_active"/>
+                            <body name="right_passive_1_4_1" pos="-.009 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint class="joint_passive_end"/>
+                                <site name="right_end_1_4_a_from" class="fromsite_a"/>
+                                <site name="right_end_1_4_b_from" class="fromsite_b"/>
+                                <body name="right_passive_1_4_2" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="right_end_1_4_a_to" class="tosite_a"/>
+                                    <site name="right_end_1_4_b_to" class="tosite_b"/>
+                                    <site name="right_end_1_4_c_from" class="fromsite_a"/>
+                                    <site name="right_end_1_4_d_from" class="fromsite_b"/>
+                                    <body name="right_passive_1_4_3" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="right_end_1_4_c_to" class="tosite_a"/>
+                                        <site name="right_end_1_4_d_to" class="tosite_b"/>
+                                    </body>
+                                </body>
+                            </body>
+                            <body name="right_active_1_5" pos="0 -.005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="right_active_1_5" class="right_joint_active"/>
+                                <body name="right_passive_1_5_1" pos="-.009 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint class="joint_passive_end"/>
+                                    <site name="right_end_1_5_a_from" class="fromsite_a"/>
+                                    <site name="right_end_1_5_b_from" class="fromsite_b"/>
+                                    <body name="right_passive_1_5_2" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="right_end_1_5_a_to" class="tosite_a"/>
+                                        <site name="right_end_1_5_b_to" class="tosite_b"/>
+                                        <site name="right_end_1_5_c_from" class="fromsite_a"/>
+                                        <site name="right_end_1_5_d_from" class="fromsite_b"/>
+                                        <body name="right_passive_1_5_3" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="right_end_1_5_c_to" class="tosite_a"/>
+                                            <site name="right_end_1_5_d_to" class="tosite_b"/>
+                                        </body>
+                                    </body>
+                                </body>
+                                <body name="right_active_1_6" pos="0 -.005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="right_active_1_6" class="right_joint_active"/>
+                                    <body name="right_passive_1_6_1" pos="-.009 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint class="joint_passive_end"/>
+                                        <site name="right_end_1_6_a_from" class="fromsite_a"/>
+                                        <site name="right_end_1_6_b_from" class="fromsite_b"/>
+                                        <body name="right_passive_1_6_2" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="right_end_1_6_a_to" class="tosite_a"/>
+                                            <site name="right_end_1_6_b_to" class="tosite_b"/>
+                                            <site name="right_end_1_6_c_from" class="fromsite_a"/>
+                                            <site name="right_end_1_6_d_from" class="fromsite_b"/>
+                                            <body name="right_passive_1_6_3" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="right_end_1_6_c_to" class="tosite_a"/>
+                                                <site name="right_end_1_6_d_to" class="tosite_b"/>
+                                            </body>
+                                        </body>
+                                    </body>
+                                    <body name="right_active_1_7" pos="0 -.005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="right_active_1_7" class="right_joint_active"/>
+                                        <body name="right_passive_1_7_1" pos="-.009 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint class="joint_passive_end"/>
+                                            <site name="right_end_1_7_a_from" class="fromsite_a"/>
+                                            <site name="right_end_1_7_b_from" class="fromsite_b"/>
+                                            <body name="right_passive_1_7_2" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="right_end_1_7_a_to" class="tosite_a"/>
+                                                <site name="right_end_1_7_b_to" class="tosite_b"/>
+                                                <site name="right_end_1_7_c_from" class="fromsite_a"/>
+                                                <site name="right_end_1_7_d_from" class="fromsite_b"/>
+                                                <body name="right_passive_1_7_3" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="right_end_1_7_c_to" class="tosite_a"/>
+                                                    <site name="right_end_1_7_d_to" class="tosite_b"/>
+                                                </body>
+                                            </body>
+                                        </body>
+                                        <body name="right_active_1_8" pos="0 -.005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="right_active_1_8" class="right_joint_active"/>
+                                            <body name="right_passive_1_8_1" pos="-.009 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint class="joint_passive_end"/>
+                                                <site name="right_end_1_8_a_from" class="fromsite_a"/>
+                                                <site name="right_end_1_8_b_from" class="fromsite_b"/>
+                                                <body name="right_passive_1_8_2" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="right_end_1_8_a_to" class="tosite_a"/>
+                                                    <site name="right_end_1_8_b_to" class="tosite_b"/>
+                                                    <site name="right_end_1_8_c_from" class="fromsite_a"/>
+                                                    <site name="right_end_1_8_d_from" class="fromsite_b"/>
+                                                    <body name="right_passive_1_8_3" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="right_end_1_8_c_to" class="tosite_a"/>
+                                                        <site name="right_end_1_8_d_to" class="tosite_b"/>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                            <body name="right_active_1_9" pos="0 -.005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="right_active_1_9" class="right_joint_active"/>
+                                                <body name="right_passive_1_9_1" pos="-.009 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint class="joint_passive_end"/>
+                                                    <site name="right_end_1_9_a_from" class="fromsite_a"/>
+                                                    <site name="right_end_1_9_b_from" class="fromsite_b"/>
+                                                    <body name="right_passive_1_9_2" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="right_end_1_9_a_to" class="tosite_a"/>
+                                                        <site name="right_end_1_9_b_to" class="tosite_b"/>
+                                                        <site name="right_end_1_9_c_from" class="fromsite_a"/>
+                                                        <site name="right_end_1_9_d_from" class="fromsite_b"/>
+                                                        <body name="right_passive_1_9_3" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="right_end_1_9_c_to" class="tosite_a"/>
+                                                            <site name="right_end_1_9_d_to" class="tosite_b"/>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="right_active_1_10" pos="0 -.005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="right_active_1_10" class="right_joint_active"/>
+                                                    <body name="right_passive_1_10_1" pos="-.009 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint class="joint_passive_end"/>
+                                                        <site name="right_end_1_10_a_from" class="fromsite_a"/>
+                                                        <site name="right_end_1_10_b_from" class="fromsite_b"/>
+                                                        <body name="right_passive_1_10_2" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="right_end_1_10_a_to" class="tosite_a"/>
+                                                            <site name="right_end_1_10_b_to" class="tosite_b"/>
+                                                            <site name="right_end_1_10_c_from" class="fromsite_a"/>
+                                                            <site name="right_end_1_10_d_from" class="fromsite_b"/>
+                                                            <body name="right_passive_1_10_3" pos="-.003 0 0">
+                                                                <geom class="DEA_passive"/>
+                                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                                <site name="right_end_1_10_c_to" class="tosite_a"/>
+                                                                <site name="right_end_1_10_d_to" class="tosite_b"/>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <!--  ======================================================================== right-1 ============================================================================= /-->
+            <!--  ======================================================================== right-2 ============================================================================= /-->
+            <body name="right_active_2_1" pos="0 -.0425 0">
+                <geom class="DEA_active"/>
+                <joint name="right_active_2_1" class="right_joint_active"/>
+                <body name="right_passive_2_1_1" pos="-.009 0 0">
+                    <geom class="DEA_passive"/>
+                    <joint class="joint_passive_end"/>
+                    <site name="right_end_2_1_a_from" class="fromsite_a"/>
+                    <site name="right_end_2_1_b_from" class="fromsite_b"/>
+                    <body name="right_passive_2_1_2" pos="-.003 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                        <site name="right_end_2_1_a_to" class="tosite_a"/>
+                        <site name="right_end_2_1_b_to" class="tosite_b"/>
+                        <site name="right_end_2_1_c_from" class="fromsite_a"/>
+                        <site name="right_end_2_1_d_from" class="fromsite_b"/>
+                        <body name="right_passive_2_1_3" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="right_end_2_1_c_to" class="tosite_a"/>
+                            <site name="right_end_2_1_d_to" class="tosite_b"/>
+                        </body>
+                    </body>
+                </body>
+                <body name="right_active_2_2" pos="0 -.005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="right_active_2_2" class="right_joint_active"/>
+                    <body name="right_passive_2_2_1" pos="-.009 0 0">
+                        <geom class="DEA_passive"/>
+                        <joint class="joint_passive_end"/>
+                        <site name="right_end_2_2_a_from" class="fromsite_a"/>
+                        <site name="right_end_2_2_b_from" class="fromsite_b"/>
+                        <body name="right_passive_2_2_2" pos="-.003 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                            <site name="right_end_2_2_a_to" class="tosite_a"/>
+                            <site name="right_end_2_2_b_to" class="tosite_b"/>
+                            <site name="right_end_2_2_c_from" class="fromsite_a"/>
+                            <site name="right_end_2_2_d_from" class="fromsite_b"/>
+                            <body name="right_passive_2_2_3" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="right_end_2_2_c_to" class="tosite_a"/>
+                                <site name="right_end_2_2_d_to" class="tosite_b"/>
+                            </body>
+                        </body>
+                    </body>
+                    <body name="right_active_2_3" pos="0 -.005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="right_active_2_3" class="right_joint_active"/>
+                        <body name="right_passive_2_3_1" pos="-.009 0 0">
+                            <geom class="DEA_passive"/>
+                            <joint class="joint_passive_end"/>
+                            <site name="right_end_2_3_a_from" class="fromsite_a"/>
+                            <site name="right_end_2_3_b_from" class="fromsite_b"/>
+                            <body name="right_passive_2_3_2" pos="-.003 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                <site name="right_end_2_3_a_to" class="tosite_a"/>
+                                <site name="right_end_2_3_b_to" class="tosite_b"/>
+                                <site name="right_end_2_3_c_from" class="fromsite_a"/>
+                                <site name="right_end_2_3_d_from" class="fromsite_b"/>
+                                <body name="right_passive_2_3_3" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="right_end_2_3_c_to" class="tosite_a"/>
+                                    <site name="right_end_2_3_d_to" class="tosite_b"/>
+                                </body>
+                            </body>
+                        </body>
+                        <body name="right_active_2_4" pos="0 -.005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="right_active_2_4" class="right_joint_active"/>
+                            <body name="right_passive_2_4_1" pos="-.009 0 0">
+                                <geom class="DEA_passive"/>
+                                <joint class="joint_passive_end"/>
+                                <site name="right_end_2_4_a_from" class="fromsite_a"/>
+                                <site name="right_end_2_4_b_from" class="fromsite_b"/>
+                                <body name="right_passive_2_4_2" pos="-.003 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                    <site name="right_end_2_4_a_to" class="tosite_a"/>
+                                    <site name="right_end_2_4_b_to" class="tosite_b"/>
+                                    <site name="right_end_2_4_c_from" class="fromsite_a"/>
+                                    <site name="right_end_2_4_d_from" class="fromsite_b"/>
+                                    <body name="right_passive_2_4_3" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="right_end_2_4_c_to" class="tosite_a"/>
+                                        <site name="right_end_2_4_d_to" class="tosite_b"/>
+                                    </body>
+                                </body>
+                            </body>
+                            <body name="right_active_2_5" pos="0 -.005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="right_active_2_5" class="right_joint_active"/>
+                                <body name="right_passive_2_5_1" pos="-.009 0 0">
+                                    <geom class="DEA_passive"/>
+                                    <joint class="joint_passive_end"/>
+                                    <site name="right_end_2_5_a_from" class="fromsite_a"/>
+                                    <site name="right_end_2_5_b_from" class="fromsite_b"/>
+                                    <body name="right_passive_2_5_2" pos="-.003 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                        <site name="right_end_2_5_a_to" class="tosite_a"/>
+                                        <site name="right_end_2_5_b_to" class="tosite_b"/>
+                                        <site name="right_end_2_5_c_from" class="fromsite_a"/>
+                                        <site name="right_end_2_5_d_from" class="fromsite_b"/>
+                                        <body name="right_passive_2_5_3" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="right_end_2_5_c_to" class="tosite_a"/>
+                                            <site name="right_end_2_5_d_to" class="tosite_b"/>
+                                        </body>
+                                    </body>
+                                </body>
+                                <body name="right_active_2_6" pos="0 -.005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="right_active_2_6" class="right_joint_active"/>
+                                    <body name="right_passive_2_6_1" pos="-.009 0 0">
+                                        <geom class="DEA_passive"/>
+                                        <joint class="joint_passive_end"/>
+                                        <site name="right_end_2_6_a_from" class="fromsite_a"/>
+                                        <site name="right_end_2_6_b_from" class="fromsite_b"/>
+                                        <body name="right_passive_2_6_2" pos="-.003 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                            <site name="right_end_2_6_a_to" class="tosite_a"/>
+                                            <site name="right_end_2_6_b_to" class="tosite_b"/>
+                                            <site name="right_end_2_6_c_from" class="fromsite_a"/>
+                                            <site name="right_end_2_6_d_from" class="fromsite_b"/>
+                                            <body name="right_passive_2_6_3" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="right_end_2_6_c_to" class="tosite_a"/>
+                                                <site name="right_end_2_6_d_to" class="tosite_b"/>
+                                            </body>
+                                        </body>
+                                    </body>
+                                    <body name="right_active_2_7" pos="0 -.005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="right_active_2_7" class="right_joint_active"/>
+                                        <body name="right_passive_2_7_1" pos="-.009 0 0">
+                                            <geom class="DEA_passive"/>
+                                            <joint class="joint_passive_end"/>
+                                            <site name="right_end_2_7_a_from" class="fromsite_a"/>
+                                            <site name="right_end_2_7_b_from" class="fromsite_b"/>
+                                            <body name="right_passive_2_7_2" pos="-.003 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                <site name="right_end_2_7_a_to" class="tosite_a"/>
+                                                <site name="right_end_2_7_b_to" class="tosite_b"/>
+                                                <site name="right_end_2_7_c_from" class="fromsite_a"/>
+                                                <site name="right_end_2_7_d_from" class="fromsite_b"/>
+                                                <body name="right_passive_2_7_3" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="right_end_2_7_c_to" class="tosite_a"/>
+                                                    <site name="right_end_2_7_d_to" class="tosite_b"/>
+                                                </body>
+                                            </body>
+                                        </body>
+                                        <body name="right_active_2_8" pos="0 -.005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="right_active_2_8" class="right_joint_active"/>
+                                            <body name="right_passive_2_8_1" pos="-.009 0 0">
+                                                <geom class="DEA_passive"/>
+                                                <joint class="joint_passive_end"/>
+                                                <site name="right_end_2_8_a_from" class="fromsite_a"/>
+                                                <site name="right_end_2_8_b_from" class="fromsite_b"/>
+                                                <body name="right_passive_2_8_2" pos="-.003 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                    <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                    <site name="right_end_2_8_a_to" class="tosite_a"/>
+                                                    <site name="right_end_2_8_b_to" class="tosite_b"/>
+                                                    <site name="right_end_2_8_c_from" class="fromsite_a"/>
+                                                    <site name="right_end_2_8_d_from" class="fromsite_b"/>
+                                                    <body name="right_passive_2_8_3" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="right_end_2_8_c_to" class="tosite_a"/>
+                                                        <site name="right_end_2_8_d_to" class="tosite_b"/>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                            <body name="right_active_2_9" pos="0 -.005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="right_active_2_9" class="right_joint_active"/>
+                                                <body name="right_passive_2_9_1" pos="-.009 0 0">
+                                                    <geom class="DEA_passive"/>
+                                                    <joint class="joint_passive_end"/>
+                                                    <site name="right_end_2_9_a_from" class="fromsite_a"/>
+                                                    <site name="right_end_2_9_b_from" class="fromsite_b"/>
+                                                    <body name="right_passive_2_9_2" pos="-.003 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                        <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                        <site name="right_end_2_9_a_to" class="tosite_a"/>
+                                                        <site name="right_end_2_9_b_to" class="tosite_b"/>
+                                                        <site name="right_end_2_9_c_from" class="fromsite_a"/>
+                                                        <site name="right_end_2_9_d_from" class="fromsite_b"/>
+                                                        <body name="right_passive_2_9_3" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="right_end_2_9_c_to" class="tosite_a"/>
+                                                            <site name="right_end_2_9_d_to" class="tosite_b"/>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                                <body name="right_active_2_10" pos="0 -.005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="right_active_2_10" class="right_joint_active"/>
+                                                    <body name="right_passive_2_10_1" pos="-.009 0 0">
+                                                        <geom class="DEA_passive"/>
+                                                        <joint class="joint_passive_end"/>
+                                                        <site name="right_end_2_10_a_from" class="fromsite_a"/>
+                                                        <site name="right_end_2_10_b_from" class="fromsite_b"/>
+                                                        <body name="right_passive_2_10_2" pos="-.003 0 0">
+                                                            <geom class="DEA_passive"/>
+                                                            <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                            <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                            <site name="right_end_2_10_a_to" class="tosite_a"/>
+                                                            <site name="right_end_2_10_b_to" class="tosite_b"/>
+                                                            <site name="right_end_2_10_c_from" class="fromsite_a"/>
+                                                            <site name="right_end_2_10_d_from" class="fromsite_b"/>
+                                                            <body name="right_passive_2_10_3" pos="-.003 0 0">
+                                                                <geom class="DEA_passive"/>
+                                                                <joint axis="1 0 0" pos="0 0 0" type="slide"/>
+                                                                <joint axis="0 1 0" pos="0 0 0" type="slide"/>
+                                                                <site name="right_end_2_10_c_to" class="tosite_a"/>
+                                                                <site name="right_end_2_10_d_to" class="tosite_b"/>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <!--  ======================================================================== right-2 ============================================================================= /-->
+            <!--  ======================================================================== right-3 ============================================================================= /-->
+            <body name="right_active_3_1" pos="-.024 -.0425 0">
+                <geom class="DEA_active"/>
+                <joint name="right_active_3_1" class="right_joint_active"/>
+
+                <body name="right_active_3_2" pos="0 -.005 0">
+                    <geom class="DEA_active"/>
+                    <joint name="right_active_3_2" class="right_joint_active"/>
+
+                    <body name="right_active_3_3" pos="0 -.005 0">
+                        <geom class="DEA_active"/>
+                        <joint name="right_active_3_3" class="right_joint_active"/>
+
+                        <body name="right_active_3_4" pos="0 -.005 0">
+                            <geom class="DEA_active"/>
+                            <joint name="right_active_3_4" class="right_joint_active"/>
+
+                            <body name="right_active_3_5" pos="0 -.005 0">
+                                <geom class="DEA_active"/>
+                                <joint name="right_active_3_5" class="right_joint_active"/>
+
+                                <body name="right_active_3_6" pos="0 -.005 0">
+                                    <geom class="DEA_active"/>
+                                    <joint name="right_active_3_6" class="right_joint_active"/>
+
+                                    <body name="right_active_3_7" pos="0 -.005 0">
+                                        <geom class="DEA_active"/>
+                                        <joint name="right_active_3_7" class="right_joint_active"/>
+
+                                        <body name="right_active_3_8" pos="0 -.005 0">
+                                            <geom class="DEA_active"/>
+                                            <joint name="right_active_3_8" class="right_joint_active"/>
+
+                                            <body name="right_active_3_9" pos="0 -.005 0">
+                                                <geom class="DEA_active"/>
+                                                <joint name="right_active_3_9" class="right_joint_active"/>
+
+                                                <body name="right_active_3_10" pos="0 -.005 0">
+                                                    <geom class="DEA_active"/>
+                                                    <joint name="right_active_3_10" class="right_joint_active"/>
+
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+            <!--  ======================================================================== right-3 ============================================================================= /-->
+        </body>
+    </worldbody>
+    <!--    add tendon from one site to another site-->
+    <!--@formatter:off-->
+    <tendon>
+<!-- ================================================= left 1 - 2 ====================================================-->
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_1_a_from"/>
+                                                <site site="left_end_1_1_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_1_b_from"/>
+                                                <site site="left_end_1_1_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_1_c_from"/>
+                                                <site site="left_end_1_1_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_1_d_from"/>
+                                                <site site="left_end_1_1_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_2_a_from"/>
+                                                <site site="left_end_1_2_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_2_b_from"/>
+                                                <site site="left_end_1_2_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_2_c_from"/>
+                                                <site site="left_end_1_2_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_2_d_from"/>
+                                                <site site="left_end_1_2_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_3_a_from"/>
+                                                <site site="left_end_1_3_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_3_b_from"/>
+                                                <site site="left_end_1_3_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_3_c_from"/>
+                                                <site site="left_end_1_3_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_3_d_from"/>
+                                                <site site="left_end_1_3_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_4_a_from"/>
+                                                <site site="left_end_1_4_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_4_b_from"/>
+                                                <site site="left_end_1_4_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_4_c_from"/>
+                                                <site site="left_end_1_4_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_4_d_from"/>
+                                                <site site="left_end_1_4_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_5_a_from"/>
+                                                <site site="left_end_1_5_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_5_b_from"/>
+                                                <site site="left_end_1_5_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_5_c_from"/>
+                                                <site site="left_end_1_5_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_5_d_from"/>
+                                                <site site="left_end_1_5_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_6_a_from"/>
+                                                <site site="left_end_1_6_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_6_b_from"/>
+                                                <site site="left_end_1_6_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_6_c_from"/>
+                                                <site site="left_end_1_6_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_6_d_from"/>
+                                                <site site="left_end_1_6_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_7_a_from"/>
+                                                <site site="left_end_1_7_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_7_b_from"/>
+                                                <site site="left_end_1_7_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_7_c_from"/>
+                                                <site site="left_end_1_7_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_7_d_from"/>
+                                                <site site="left_end_1_7_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_8_a_from"/>
+                                                <site site="left_end_1_8_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_8_b_from"/>
+                                                <site site="left_end_1_8_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_8_c_from"/>
+                                                <site site="left_end_1_8_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_8_d_from"/>
+                                                <site site="left_end_1_8_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_9_a_from"/>
+                                                <site site="left_end_1_9_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_9_b_from"/>
+                                                <site site="left_end_1_9_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_9_c_from"/>
+                                                <site site="left_end_1_9_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_9_d_from"/>
+                                                <site site="left_end_1_9_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_10_a_from"/>
+                                                <site site="left_end_1_10_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_10_b_from"/>
+                                                <site site="left_end_1_10_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_10_c_from"/>
+                                                <site site="left_end_1_10_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_1_10_d_from"/>
+                                                <site site="left_end_1_10_d_to"/>
+        </spatial>
+<!-- ================================================= left 1 - 2 ====================================================-->
+<!-- ================================================= left 2 - 3 ====================================================-->
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_1_a_from"/>
+                                                <site site="left_end_2_1_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_1_b_from"/>
+                                                <site site="left_end_2_1_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_1_c_from"/>
+                                                <site site="left_end_2_1_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_1_d_from"/>
+                                                <site site="left_end_2_1_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_2_a_from"/>
+                                                <site site="left_end_2_2_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_2_b_from"/>
+                                                <site site="left_end_2_2_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_2_c_from"/>
+                                                <site site="left_end_2_2_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_2_d_from"/>
+                                                <site site="left_end_2_2_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_3_a_from"/>
+                                                <site site="left_end_2_3_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_3_b_from"/>
+                                                <site site="left_end_2_3_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_3_c_from"/>
+                                                <site site="left_end_2_3_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_3_d_from"/>
+                                                <site site="left_end_2_3_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_4_a_from"/>
+                                                <site site="left_end_2_4_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_4_b_from"/>
+                                                <site site="left_end_2_4_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_4_c_from"/>
+                                                <site site="left_end_2_4_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_4_d_from"/>
+                                                <site site="left_end_2_4_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_5_a_from"/>
+                                                <site site="left_end_2_5_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_5_b_from"/>
+                                                <site site="left_end_2_5_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_5_c_from"/>
+                                                <site site="left_end_2_5_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_5_d_from"/>
+                                                <site site="left_end_2_5_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_6_a_from"/>
+                                                <site site="left_end_2_6_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_6_b_from"/>
+                                                <site site="left_end_2_6_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_6_c_from"/>
+                                                <site site="left_end_2_6_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_6_d_from"/>
+                                                <site site="left_end_2_6_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_7_a_from"/>
+                                                <site site="left_end_2_7_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_7_b_from"/>
+                                                <site site="left_end_2_7_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_7_c_from"/>
+                                                <site site="left_end_2_7_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_7_d_from"/>
+                                                <site site="left_end_2_7_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_8_a_from"/>
+                                                <site site="left_end_2_8_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_8_b_from"/>
+                                                <site site="left_end_2_8_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_8_c_from"/>
+                                                <site site="left_end_2_8_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_8_d_from"/>
+                                                <site site="left_end_2_8_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_9_a_from"/>
+                                                <site site="left_end_2_9_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_9_b_from"/>
+                                                <site site="left_end_2_9_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_9_c_from"/>
+                                                <site site="left_end_2_9_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_9_d_from"/>
+                                                <site site="left_end_2_9_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_10_a_from"/>
+                                                <site site="left_end_2_10_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_10_b_from"/>
+                                                <site site="left_end_2_10_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_10_c_from"/>
+                                                <site site="left_end_2_10_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="left_end_2_10_d_from"/>
+                                                <site site="left_end_2_10_d_to"/>
+        </spatial>
+<!-- ================================================= left 2 - 3 ====================================================-->
+<!-- ================================================= right 1 - 2 ====================================================-->
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_1_a_from"/>
+                                                <site site="right_end_1_1_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_1_b_from"/>
+                                                <site site="right_end_1_1_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_1_c_from"/>
+                                                <site site="right_end_1_1_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_1_d_from"/>
+                                                <site site="right_end_1_1_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_2_a_from"/>
+                                                <site site="right_end_1_2_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_2_b_from"/>
+                                                <site site="right_end_1_2_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_2_c_from"/>
+                                                <site site="right_end_1_2_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_2_d_from"/>
+                                                <site site="right_end_1_2_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_3_a_from"/>
+                                                <site site="right_end_1_3_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_3_b_from"/>
+                                                <site site="right_end_1_3_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_3_c_from"/>
+                                                <site site="right_end_1_3_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_3_d_from"/>
+                                                <site site="right_end_1_3_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_4_a_from"/>
+                                                <site site="right_end_1_4_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_4_b_from"/>
+                                                <site site="right_end_1_4_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_4_c_from"/>
+                                                <site site="right_end_1_4_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_4_d_from"/>
+                                                <site site="right_end_1_4_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_5_a_from"/>
+                                                <site site="right_end_1_5_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_5_b_from"/>
+                                                <site site="right_end_1_5_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_5_c_from"/>
+                                                <site site="right_end_1_5_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_5_d_from"/>
+                                                <site site="right_end_1_5_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_6_a_from"/>
+                                                <site site="right_end_1_6_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_6_b_from"/>
+                                                <site site="right_end_1_6_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_6_c_from"/>
+                                                <site site="right_end_1_6_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_6_d_from"/>
+                                                <site site="right_end_1_6_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_7_a_from"/>
+                                                <site site="right_end_1_7_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_7_b_from"/>
+                                                <site site="right_end_1_7_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_7_c_from"/>
+                                                <site site="right_end_1_7_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_7_d_from"/>
+                                                <site site="right_end_1_7_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_8_a_from"/>
+                                                <site site="right_end_1_8_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_8_b_from"/>
+                                                <site site="right_end_1_8_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_8_c_from"/>
+                                                <site site="right_end_1_8_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_8_d_from"/>
+                                                <site site="right_end_1_8_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_9_a_from"/>
+                                                <site site="right_end_1_9_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_9_b_from"/>
+                                                <site site="right_end_1_9_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_9_c_from"/>
+                                                <site site="right_end_1_9_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_9_d_from"/>
+                                                <site site="right_end_1_9_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_10_a_from"/>
+                                                <site site="right_end_1_10_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_10_b_from"/>
+                                                <site site="right_end_1_10_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_10_c_from"/>
+                                                <site site="right_end_1_10_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_1_10_d_from"/>
+                                                <site site="right_end_1_10_d_to"/>
+        </spatial>
+<!-- ================================================= right 1 - 2 ====================================================-->
+<!-- ================================================= right 2 - 3 ====================================================-->
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_1_a_from"/>
+                                                <site site="right_end_2_1_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_1_b_from"/>
+                                                <site site="right_end_2_1_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_1_c_from"/>
+                                                <site site="right_end_2_1_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_1_d_from"/>
+                                                <site site="right_end_2_1_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_2_a_from"/>
+                                                <site site="right_end_2_2_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_2_b_from"/>
+                                                <site site="right_end_2_2_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_2_c_from"/>
+                                                <site site="right_end_2_2_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_2_d_from"/>
+                                                <site site="right_end_2_2_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_3_a_from"/>
+                                                <site site="right_end_2_3_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_3_b_from"/>
+                                                <site site="right_end_2_3_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_3_c_from"/>
+                                                <site site="right_end_2_3_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_3_d_from"/>
+                                                <site site="right_end_2_3_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_4_a_from"/>
+                                                <site site="right_end_2_4_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_4_b_from"/>
+                                                <site site="right_end_2_4_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_4_c_from"/>
+                                                <site site="right_end_2_4_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_4_d_from"/>
+                                                <site site="right_end_2_4_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_5_a_from"/>
+                                                <site site="right_end_2_5_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_5_b_from"/>
+                                                <site site="right_end_2_5_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_5_c_from"/>
+                                                <site site="right_end_2_5_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_5_d_from"/>
+                                                <site site="right_end_2_5_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_6_a_from"/>
+                                                <site site="right_end_2_6_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_6_b_from"/>
+                                                <site site="right_end_2_6_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_6_c_from"/>
+                                                <site site="right_end_2_6_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_6_d_from"/>
+                                                <site site="right_end_2_6_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_7_a_from"/>
+                                                <site site="right_end_2_7_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_7_b_from"/>
+                                                <site site="right_end_2_7_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_7_c_from"/>
+                                                <site site="right_end_2_7_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_7_d_from"/>
+                                                <site site="right_end_2_7_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_8_a_from"/>
+                                                <site site="right_end_2_8_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_8_b_from"/>
+                                                <site site="right_end_2_8_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_8_c_from"/>
+                                                <site site="right_end_2_8_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_8_d_from"/>
+                                                <site site="right_end_2_8_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_9_a_from"/>
+                                                <site site="right_end_2_9_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_9_b_from"/>
+                                                <site site="right_end_2_9_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_9_c_from"/>
+                                                <site site="right_end_2_9_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_9_d_from"/>
+                                                <site site="right_end_2_9_d_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_10_a_from"/>
+                                                <site site="right_end_2_10_a_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_10_b_from"/>
+                                                <site site="right_end_2_10_b_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_10_c_from"/>
+                                                <site site="right_end_2_10_c_to"/>
+        </spatial>
+        <spatial width="0.0001" stiffness="10">
+                                                <site site="right_end_2_10_d_from"/>
+                                                <site site="right_end_2_10_d_to"/>
+        </spatial>
+<!-- ================================================= right 2 - 3 ====================================================-->
+    </tendon>
+    <!--@formatter:on-->
+    <equality>
+        <connect body1="left_passive_1_1_3" body2="left_active_2_1" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_2_3" body2="left_active_2_2" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_3_3" body2="left_active_2_3" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_4_3" body2="left_active_2_4" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_5_3" body2="left_active_2_5" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_6_3" body2="left_active_2_6" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_7_3" body2="left_active_2_7" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_8_3" body2="left_active_2_8" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_9_3" body2="left_active_2_9" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_1_10_3" body2="left_active_2_10" anchor="-0.002 0 0"/>
+
+        <connect body1="left_passive_2_1_3" body2="left_active_3_1" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_2_3" body2="left_active_3_2" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_3_3" body2="left_active_3_3" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_4_3" body2="left_active_3_4" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_5_3" body2="left_active_3_5" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_6_3" body2="left_active_3_6" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_7_3" body2="left_active_3_7" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_8_3" body2="left_active_3_8" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_9_3" body2="left_active_3_9" anchor="-0.002 0 0"/>
+        <connect body1="left_passive_2_10_3" body2="left_active_3_10" anchor="-0.002 0 0"/>
+
+        <connect body1="right_passive_1_1_3" body2="right_active_2_1" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_2_3" body2="right_active_2_2" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_3_3" body2="right_active_2_3" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_4_3" body2="right_active_2_4" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_5_3" body2="right_active_2_5" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_6_3" body2="right_active_2_6" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_7_3" body2="right_active_2_7" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_8_3" body2="right_active_2_8" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_9_3" body2="right_active_2_9" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_1_10_3" body2="right_active_2_10" anchor="-0.002 0 0"/>
+
+        <connect body1="right_passive_2_1_3" body2="right_active_3_1" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_2_3" body2="right_active_3_2" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_3_3" body2="right_active_3_3" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_4_3" body2="right_active_3_4" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_5_3" body2="right_active_3_5" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_6_3" body2="right_active_3_6" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_7_3" body2="right_active_3_7" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_8_3" body2="right_active_3_8" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_9_3" body2="right_active_3_9" anchor="-0.002 0 0"/>
+        <connect body1="right_passive_2_10_3" body2="right_active_3_10" anchor="-0.002 0 0"/>
+    </equality>
+
+    <actuator>
+        <!--        <motor class="actuator" joint="test"/>-->
+        <motor class="actuator" joint="left_active_1_1"/>
+        <motor class="actuator" joint="left_active_1_2"/>
+        <motor class="actuator" joint="left_active_1_3"/>
+        <motor class="actuator" joint="left_active_1_4"/>
+        <motor class="actuator" joint="left_active_1_5"/>
+        <motor class="actuator" joint="left_active_1_6"/>
+        <motor class="actuator" joint="left_active_1_7"/>
+        <motor class="actuator" joint="left_active_1_8"/>
+        <motor class="actuator" joint="left_active_1_9"/>
+        <motor class="actuator" joint="left_active_1_10"/>
+
+        <motor class="actuator" joint="right_active_1_1"/>
+        <motor class="actuator" joint="right_active_1_2"/>
+        <motor class="actuator" joint="right_active_1_3"/>
+        <motor class="actuator" joint="right_active_1_4"/>
+        <motor class="actuator" joint="right_active_1_5"/>
+        <motor class="actuator" joint="right_active_1_6"/>
+        <motor class="actuator" joint="right_active_1_7"/>
+        <motor class="actuator" joint="right_active_1_8"/>
+        <motor class="actuator" joint="right_active_1_9"/>
+        <motor class="actuator" joint="right_active_1_10"/>
+
+        <motor class="actuator" joint="left_active_2_1"/>
+        <motor class="actuator" joint="left_active_2_2"/>
+        <motor class="actuator" joint="left_active_2_3"/>
+        <motor class="actuator" joint="left_active_2_4"/>
+        <motor class="actuator" joint="left_active_2_5"/>
+        <motor class="actuator" joint="left_active_2_6"/>
+        <motor class="actuator" joint="left_active_2_7"/>
+        <motor class="actuator" joint="left_active_2_8"/>
+        <motor class="actuator" joint="left_active_2_9"/>
+        <motor class="actuator" joint="left_active_2_10"/>
+
+        <motor class="actuator" joint="right_active_2_1"/>
+        <motor class="actuator" joint="right_active_2_2"/>
+        <motor class="actuator" joint="right_active_2_3"/>
+        <motor class="actuator" joint="right_active_2_4"/>
+        <motor class="actuator" joint="right_active_2_5"/>
+        <motor class="actuator" joint="right_active_2_6"/>
+        <motor class="actuator" joint="right_active_2_7"/>
+        <motor class="actuator" joint="right_active_2_8"/>
+        <motor class="actuator" joint="right_active_2_9"/>
+        <motor class="actuator" joint="right_active_2_10"/>
+
+        <motor class="actuator" joint="left_active_3_1"/>
+        <motor class="actuator" joint="left_active_3_2"/>
+        <motor class="actuator" joint="left_active_3_3"/>
+        <motor class="actuator" joint="left_active_3_4"/>
+        <motor class="actuator" joint="left_active_3_5"/>
+        <motor class="actuator" joint="left_active_3_6"/>
+        <motor class="actuator" joint="left_active_3_7"/>
+        <motor class="actuator" joint="left_active_3_8"/>
+        <motor class="actuator" joint="left_active_3_9"/>
+        <motor class="actuator" joint="left_active_3_10"/>
+
+        <motor class="actuator" joint="right_active_3_1"/>
+        <motor class="actuator" joint="right_active_3_2"/>
+        <motor class="actuator" joint="right_active_3_3"/>
+        <motor class="actuator" joint="right_active_3_4"/>
+        <motor class="actuator" joint="right_active_3_5"/>
+        <motor class="actuator" joint="right_active_3_6"/>
+        <motor class="actuator" joint="right_active_3_7"/>
+        <motor class="actuator" joint="right_active_3_8"/>
+        <motor class="actuator" joint="right_active_3_9"/>
+        <motor class="actuator" joint="right_active_3_10"/>
+    </actuator>
+</mujoco>
