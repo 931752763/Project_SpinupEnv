@@ -10,6 +10,7 @@ class Swimmer6Env(mujoco_env.MujocoEnv, utils.EzPickle):
     def step(self, a):
         ctrl_cost_coeff = 0.0001
         xposbefore = self.sim.data.qpos[0]
+
         self.do_simulation(a, self.frame_skip)
         xposafter = self.sim.data.qpos[0]
         reward_fwd = (xposafter - xposbefore) / self.dt
