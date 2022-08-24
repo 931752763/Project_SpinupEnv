@@ -14,48 +14,7 @@
 │   │   ├── OneTest.py
 │   │   ├── pic
 │   │   │   ├── 0.0001compare.jpg
-│   │   │   ├── 0.0001compare.pdf
-│   │   │   ├── 0.01compare.jpg
-│   │   │   ├── 0.01compare.pdf
-│   │   │   ├── compare.jpg
-│   │   │   ├── compare.pdf
-│   │   │   ├── DRL_max_v.pdf
-│   │   │   ├── DRL.pdf
-│   │   │   ├── DRL_p_of_target_v.jpg
-│   │   │   ├── DRL_p_of_target_v.pdf
-│   │   │   ├── DRL_p_of_target_v.png
-│   │   │   ├── DRL_v=0.12_p.pdf
-│   │   │   ├── DRL_v=0.12_v.pdf
-│   │   │   ├── equation.pdf
-│   │   │   ├── GE_max_v.pdf
-│   │   │   ├── GE.pdf
-│   │   │   ├── GE_p_of_target_v.jpg
-│   │   │   ├── GE_p_of_target_v.pdf
-│   │   │   ├── GE_p_of_target_v.png
-│   │   │   ├── GE_v=0.12_p.pdf
-│   │   │   ├── GE_v=0.12_v.pdf
-│   │   │   ├── max_v.jpg
-│   │   │   ├── max_v.pdf
-│   │   │   ├── p.pdf
-│   │   │   ├── reward.jpg
-│   │   │   ├── reward.pdf
-│   │   │   ├── reward.png
-│   │   │   ├── s=0_compare.png
-│   │   │   ├── s=0_contour.pdf
-│   │   │   ├── s=0_DRL.jpg
-│   │   │   ├── s=0_DRL.png
-│   │   │   ├── s=0_GE.pdf
-│   │   │   ├── s=0_GE.png
-│   │   │   ├── s=0_p.pdf
-│   │   │   ├── s=0_sin.jpg
-│   │   │   ├── s=0_v.pdf
-│   │   │   ├── s=2_DRL.jpg
-│   │   │   ├── s=2_p.pdf
-│   │   │   ├── s=2_s=4.jpg
-│   │   │   ├── s=2_s=4.pdf
-│   │   │   ├── s=2_s=4.png
-│   │   │   ├── s=2_sin.jpg
-│   │   │   ├── s=2_v.pdf
+│   │   │   ├── .......
 │   │   │   └── v.pdf
 │   │   ├── PID.py
 │   │   ├── plot.py
