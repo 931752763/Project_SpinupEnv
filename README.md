@@ -101,6 +101,10 @@
             └── swimmer5
                 ├── config.json
                 └── progress.txt
+                
+/home/zheng/spinningup/spinup/algos/tf1/ppo/ppo.py
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.py
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.xml
 ```
 So the whole process is like this:
 Run GE controller: 
