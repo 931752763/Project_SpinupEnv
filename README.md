@@ -106,6 +106,47 @@
 /home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.py    # this also used for DRL controller
 /home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.xml   # the xml model for DRL controller
 ```
-So the whole process is like this:
-Run GE controller: 
 
+So the whole process is like this:
+
+### GE controller:  
+
+**The following paths are all based on demo/FrequencySnake/**
+
+- run `FreqSwimmer6.py`, it will use `FreqSwimmer6.xml` as its model. Results will be record in:
+
+```python
+dir = "/home/zheng/spinningup/data/paper_10.11/water/sin/"
+path = "vis=0.0001_s=3_" + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
+os.makedirs(dir + path)
+```
+
+- view the result of this simulation, use `viewer.py`
+
+### DRL controller:
+
+**The following paths are all based on demo/FrequencySnake/RLsnake**
+
+- run `main.py`, it will use 
+
+```python
+/home/zheng/spinningup/spinup/algos/tf1/ppo/ppo.py
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.py
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.xml
+```
+
+these 3 files as its algo or model.
+
+results will  be in :
+
+```python
+path = '/home/zheng/spinningup/data/paper_10.11/water/'\
+       + time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime()) + 's=0_'
+```
+
+- view the reward of DRL simulation, use `plotReward.py`
+- view this training result, use `viewer.py`
+
+### Compare and see results
+
+use python file in `viscosity=0.0009_result` folder to see the results in water.
