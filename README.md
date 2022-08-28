@@ -102,9 +102,9 @@
                 ├── config.json
                 └── progress.txt
                 
-/home/zheng/spinningup/spinup/algos/tf1/ppo/ppo.py
-/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.py
-/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.xml
+/home/zheng/spinningup/spinup/algos/tf1/ppo/ppo.py          # PPO algo for DRL controller, I edited this file
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.py    # this also used for DRL controller
+/home/zheng/anaconda3/envs/spinningupEnv/lib/python3.6/site-packages/gym/envs/mujoco/RLsnake/swimmer6.xml   # the xml model for DRL controller
 ```
 So the whole process is like this:
 Run GE controller: 
